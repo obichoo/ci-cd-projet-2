@@ -14,11 +14,11 @@ RUN go mod download
 # Copy the source code into the container
 COPY . .
 
-# Build the Go app
-RUN go build -o main .
+# Build the Go app with static linking
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main .
 
 # Start a new stage from scratch
-FROM debian:buster-slim
+FROM scratch
 
 # Set the Current Working Directory inside the container
 WORKDIR /root/
