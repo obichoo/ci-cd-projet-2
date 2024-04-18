@@ -57,7 +57,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    sh 'curl https://api.render.com/deploy/srv-cock3o0l6cac73f0ue10?key=GRtjQihKmi8'
+                    sh 'curl https://api.render.com/deploy/srv-cogebr821fec73d8j1mg?key=1m_UtaUWwBQ'
                 }
             }
         }
