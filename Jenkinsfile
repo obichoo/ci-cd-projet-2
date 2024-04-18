@@ -60,8 +60,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    // Envoi d'une requête POST au webhook de déploiement
-                    sh "curl -X POST ${RENDER_DEPLOY_HOOK_PROJECT_2}"
+                    sh "curl ${RENDER_DEPLOY_HOOK_PROJECT_2}"
                 }
             }
         }
