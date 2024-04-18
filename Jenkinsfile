@@ -63,7 +63,7 @@ pipeline {
                         render login --email ${RENDER_EMAIL} --password ${RENDER_PASSWORD}
                         render deploy --project ${RENDER_PROJECT_ID} --branch master --build-env DOCKER_IMAGE=${ID_DOCKERHUB}/${IMAGE_NAME}:${IMAGE_TAG}
                     '''
-                }ƒ
+                }
             }
         }
     }
