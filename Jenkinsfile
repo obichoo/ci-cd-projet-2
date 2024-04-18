@@ -58,6 +58,7 @@ pipeline {
             steps {
                 script {
                     sh '''
+                        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
                         brew tap render-oss/render
                         brew install render
                     '''
