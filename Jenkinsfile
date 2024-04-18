@@ -59,20 +59,18 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                withCredentials([string(credentialsId: 'RENDER_DEPLOY_HOOK_PROJECT_2', variable: 'DEPLOY_HOOK_URL')]) {
-                    script {
-                        // Envoi d'une requête POST au webhook de déploiement
-                        sh "curl -X POST ${DEPLOY_HOOK_URL}"
-                    }
+                script {
+                    // Envoi d'une requête POST au webhook de déploiement
+                    sh "curl -X POST ${RENDER_DEPLOY_HOOK_PROJECT_2}"
                 }
             }
         }
     }
-// post {
-//     always {
-//         mail to: "${USER_MAIL}",
-//             subject: "Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}",
-//             body: "Check Jenkins for details. Build number: ${env.BUILD_NUMBER}"
-//     }
-// }
+    post {
+        always {
+            mail to: "${USER_MAIL}",
+                subject: "Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}",
+                body: "Check Jenkins for details. Build number: ${env.BUILD_NUMBER}"
+        }
+    }
 }
