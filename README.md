@@ -36,9 +36,9 @@ There are 2 methods for starting server.
     ```
 1. When startup is complete, the console shows the following message:
     ```
-    http server started on [::]:8080
+    http server started on [::]:8081
     ```
-1. Access [http://localhost:8080](http://localhost:8080) in your browser.
+1. Access [http://localhost:8081](http://localhost:8081) in your browser.
 1. Login with the following username and password.
     - username : ``test``
     - password : ``test``
@@ -51,9 +51,9 @@ There are 2 methods for starting server.
     ```
 1. When startup is complete, the console shows the following message:
     ```
-    http server started on [::]:8080
+    http server started on [::]:8081
     ```
-1. Access [http://localhost:8080/api/health](http://localhost:8080/api/health) in your browser and confirm that this application has started.
+1. Access [http://localhost:8081/api/health](http://localhost:8081/api/health) in your browser and confirm that this application has started.
     ```
     healthy
     ```
@@ -85,7 +85,7 @@ Swagger isn't enabled on the another environments in default.
 
 ### Accessing to Swagger
 1. Start this application according to the 'Starting Application Server' section.
-2. Access [http://localhost:8080/swagger/index.html](http://localhost:8080/swagger/index.html) in your browser.
+2. Access [http://localhost:8081/swagger/index.html](http://localhost:8081/swagger/index.html) in your browser.
 
 ### Updating the existing Swagger document
 1. Update some comments of some controllers.
