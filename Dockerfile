@@ -10,6 +10,9 @@ COPY go.mod go.sum ./
 # Télécharger toutes les dépendances
 RUN go mod download
 
+# Télécharger le module manquant
+RUN go mod download github.com/casbin/casbin/v2
+
 # Copier le code source dans le conteneur
 COPY . .
 
