@@ -8,60 +8,57 @@ pipeline {
         USER_MAIL = "${MAIL_TO}"
     }
     stages {
-        // stage('Build') {
-        //     steps {
-        //         script {
-        //             sh '''
-        //             #!/bin/bash
-        //             # Nettoyer le répertoire s'il existe déjà
-        //             if [ -d "${IMAGE_NAME}" ]; then
-        //                 rm -rf ${IMAGE_NAME}
+        stage('Build') {
+            steps {
+                script {
+                    sh '''
+                    #!/bin/bash
+                    # Nettoyer le répertoire s'il existe déjà
+                    if [ -d "${IMAGE_NAME}" ]; then
+                        rm -rf ${IMAGE_NAME}
 
-        //                 if [ "$(docker ps -q -f name=${IMAGE_NAME})" ]; then
-        //                     docker stop ${IMAGE_NAME} || true
-        //                     docker rm ${IMAGE_NAME} || true
-        //                 fi
-        //             fi
+                        if [ "$(docker ps -q -f name=${IMAGE_NAME})" ]; then
+                            docker stop ${IMAGE_NAME} || true
+                            docker rm ${IMAGE_NAME} || true
+                        fi
+                    fi
 
-        //             git clone https://github.com/${ID_GIT}/${IMAGE_NAME}.git
-        //             cd ${IMAGE_NAME}
+                    git clone https://github.com/${ID_GIT}/${IMAGE_NAME}.git
+                    cd ${IMAGE_NAME}
 
-        //             docker build -t ${ID_DOCKERHUB}/${IMAGE_NAME}:${IMAGE_TAG} .
-        //             '''
-        //         }
-        //     }
-        // }
-        // stage('Test') {
-        //     steps {
-        //         script {
-        //             sh '''
-        //                 docker run -d -p 8081:8081 -e PORT=8081 --name ${IMAGE_NAME} ${ID_DOCKERHUB}/${IMAGE_NAME}:${IMAGE_TAG}
-        //                 sleep 5
-        //                 curl http://172.17.0.1:8081
-        //             '''
-        //         }
-        //     }
-        // }
-        // stage('Artifact') {
-        //     steps {
-        //         script {
-        //             // Logging into Docker Hub 
-        //             withCredentials([usernamePassword(credentialsId: 'DOCKERHUB_LOGS', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
-        //                 sh 'echo ${DOCKERHUB_PASSWORD} | docker login -u ${DOCKERHUB_USERNAME} --password-stdin'
-        //             }
-        //             // Pushing the image to Docker Hub
-        //             sh 'docker push ${ID_DOCKERHUB}/${IMAGE_NAME}:${IMAGE_TAG}'
-        //         }
-        //     }
-        // }
+                    docker build -t ${ID_DOCKERHUB}/${IMAGE_NAME}:${IMAGE_TAG} .
+                    '''
+                }
+            }
+        }
+        stage('Test') {
+            steps {
+                script {
+                    sh '''
+                        docker run -d -p 8081:8081 -e PORT=8081 --name ${IMAGE_NAME} ${ID_DOCKERHUB}/${IMAGE_NAME}:${IMAGE_TAG}
+                        sleep 5
+                        curl http://172.17.0.1:8081
+                    '''
+                }
+            }
+        }
+        stage('Artifact') {
+            steps {
+                script {
+                    // Logging into Docker Hub 
+                    withCredentials([usernamePassword(credentialsId: 'DOCKERHUB_LOGS', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
+                        sh 'echo ${DOCKERHUB_PASSWORD} | docker login -u ${DOCKERHUB_USERNAME} --password-stdin'
+                    }
+                    // Pushing the image to Docker Hub
+                    sh 'docker push ${ID_DOCKERHUB}/${IMAGE_NAME}:${IMAGE_TAG}'
+                }
+            }
+        }
         stage('Deploy') {
             steps {
                 script {
-                     sh '''
-                        curl -o /usr/local/bin/render -L https://render.com/static/cli/render_linux
-                        chmod +x /usr/local/bin/render
-                        render login --email ${RENDER_EMAIL} --password ${RENDER_PASSWORD}
-                        render deploy --project ${RENDER_PROJECT_ID} --branch master --build-env DOCKER_IMAGE=${ID_DOCKERHUB}/${IMAGE_NAME}:${IMAGE_TAG}
+                    sh '''
+                    curl https://api.render.com/deploy/srv-cogebr821fec73d8j1mg?key=1m_UtaUWwBQ
                     '''
                 }
             }
