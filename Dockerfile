@@ -1,6 +1,6 @@
 # Use the official Golang image to create a build artifact.
 # This image is based on Debian and includes Golang installed.
-FROM golang:1.19 as builder
+FROM golang:1.22 as builder
 
 # Set the Current Working Directory inside the container
 WORKDIR /app
