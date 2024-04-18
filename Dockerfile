@@ -1,11 +1,23 @@
-# Utiliser une image nginx officielle à partir de Docker Hub
-FROM nginx:latest
+# Utiliser l'image officielle Golang comme image de base
+FROM golang:1.16
 
-# Copier les fichiers HTML, CSS, JS et autres ressources dans le dossier de contenu par défaut de nginx
-COPY . /usr/share/nginx/html
+# Définir le répertoire de travail dans le conteneur
+WORKDIR /app
 
-# Exposer le port 80 pour permettre l'accès au serveur web
-EXPOSE 80
+# Copier les fichiers go.mod et go.sum
+COPY go.mod go.sum ./
 
-# La commande CMD pour démarrer nginx lorsque le conteneur est lancé 
-CMD ["nginx", "-g", "daemon off;"]
+# Télécharger toutes les dépendances
+RUN go mod download
+
+# Copier le code source dans le conteneur
+COPY . .
+
+# Compiler l'application
+RUN go build -o main .
+
+# Exposer le port 8081
+EXPOSE 8081
+
+# Commande à exécuter lors du démarrage du conteneur
+CMD ["./main"]
