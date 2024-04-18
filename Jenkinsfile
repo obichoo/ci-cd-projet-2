@@ -59,7 +59,7 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                withCredentials([string(credentialsId: 'RENDER_DEPLOY_HOOK_URL_PROJECT_2', variable: 'DEPLOY_HOOK_URL')]) {
+                withCredentials([string(credentialsId: 'RENDER_DEPLOY_HOOK_PROJECT_2', variable: 'DEPLOY_HOOK_URL')]) {
                     script {
                         // Envoi d'une requête POST au webhook de déploiement
                         sh "curl -X POST ${DEPLOY_HOOK_URL}"
