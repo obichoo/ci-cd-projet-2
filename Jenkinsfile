@@ -8,7 +8,7 @@ pipeline {
         USER_MAIL = "${MAIL_TO}"
         RENDER_API_TOKEN = credentials('RENDER_API_TOKEN')
         RENDER_SERVICE_ID = 'srv-cogebr821fec73d8j1mg'
-        RENDER_DEPLOY_HOOK_PROJECT_2 = credentials('RENDER_DEPLOY_HOOK_PROJECT_2')
+        RENDER_DEPLOY_HOOK_PROJECT_2 = 'https://api.render.com/deploy/srv-cogebr821fec73d8j1mg?key=1m_UtaUWwBQ'
     }
     stages {
         stage('Build') {
