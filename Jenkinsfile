@@ -58,10 +58,12 @@ pipeline {
             steps {
                 script {
                      sh '''
-                    curl -o /usr/local/bin/render -L https://render.com/static/cli/render_linux
-                    chmod +x /usr/local/bin/render
+                        curl -o /usr/local/bin/render -L https://render.com/static/cli/render_linux
+                        chmod +x /usr/local/bin/render
+                        render login --email ${RENDER_EMAIL} --password ${RENDER_PASSWORD}
+                        render deploy --project ${RENDER_PROJECT_ID} --branch master --build-env DOCKER_IMAGE=${ID_DOCKERHUB}/${IMAGE_NAME}:${IMAGE_TAG}
                     '''
-                }
+                }ƒ
             }
         }
     }
