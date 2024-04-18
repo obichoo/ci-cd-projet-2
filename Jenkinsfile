@@ -58,9 +58,10 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        test -d ~/.linuxbrew && eval "$(~/.linuxbrew/bin/brew shellenv)"
-                        test -d /home/linuxbrew/.linuxbrew && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-                        echo "eval \"\$($(brew --prefix)/bin/brew shellenv)\"" >> ~/.bashrc
+                        sudo apt install build-essential
+                        which make
+                        curl -fsSL -o install.sh https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh
+                        /bin/bash install.sh
                         brew tap render-oss/render
                         brew install render
                     '''
