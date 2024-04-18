@@ -35,9 +35,9 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        docker run -d -p 80:80 -e PORT=80 --name ${IMAGE_NAME} ${ID_DOCKERHUB}/${IMAGE_NAME}:${IMAGE_TAG}
+                        docker run -d -p 8081:8081 -e PORT=8081 --name ${IMAGE_NAME} ${ID_DOCKERHUB}/${IMAGE_NAME}:${IMAGE_TAG}
                         sleep 5
-                        curl http://172.17.0.1:80 | grep -q "Home"
+                        curl http://172.17.0.1:8081 | grep -q "Home"
                     '''
                 }
             }
