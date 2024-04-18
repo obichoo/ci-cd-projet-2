@@ -62,11 +62,11 @@ pipeline {
             }
         }
     }
-    post {
-        always {
-            mail to: "${USER_MAIL}",
-                subject: "Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}",
-                body: "Check Jenkins for details. Build number: ${env.BUILD_NUMBER}"
-        }
-    }
+    // post {
+    //     always {
+    //         mail to: "${USER_MAIL}",
+    //             subject: "Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}",
+    //             body: "Check Jenkins for details. Build number: ${env.BUILD_NUMBER}"
+    //     }
+    // }
 }
