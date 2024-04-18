@@ -8,29 +8,29 @@ pipeline {
         USER_MAIL = "${MAIL_TO}"
     }
     stages {
-        stage('Build') {
-            steps {
-                script {
-                    sh '''
-                    #!/bin/bash
-                    # Nettoyer le répertoire s'il existe déjà
-                    if [ -d "${IMAGE_NAME}" ]; then
-                        rm -rf ${IMAGE_NAME}
+        // stage('Build') {
+        //     steps {
+        //         script {
+        //             sh '''
+        //             #!/bin/bash
+        //             # Nettoyer le répertoire s'il existe déjà
+        //             if [ -d "${IMAGE_NAME}" ]; then
+        //                 rm -rf ${IMAGE_NAME}
 
-                        if [ "$(docker ps -q -f name=${IMAGE_NAME})" ]; then
-                            docker stop ${IMAGE_NAME} || true
-                            docker rm ${IMAGE_NAME} || true
-                        fi
-                    fi
+        //                 if [ "$(docker ps -q -f name=${IMAGE_NAME})" ]; then
+        //                     docker stop ${IMAGE_NAME} || true
+        //                     docker rm ${IMAGE_NAME} || true
+        //                 fi
+        //             fi
 
-                    git clone https://github.com/${ID_GIT}/${IMAGE_NAME}.git
-                    cd ${IMAGE_NAME}
+        //             git clone https://github.com/${ID_GIT}/${IMAGE_NAME}.git
+        //             cd ${IMAGE_NAME}
 
-                    docker build -t ${ID_DOCKERHUB}/${IMAGE_NAME}:${IMAGE_TAG} .
-                    '''
-                }
-            }
-        }
+        //             docker build -t ${ID_DOCKERHUB}/${IMAGE_NAME}:${IMAGE_TAG} .
+        //             '''
+        //         }
+        //     }
+        // }
         // stage('Test') {
         //     steps {
         //         script {
@@ -57,10 +57,9 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    sh '''
-                        wget -qO- https://render.com/static/install.sh | sh
-                        render login --email ${RENDER_EMAIL} --password ${RENDER_PASSWORD}
-                        render deploy --project ${RENDER_PROJECT_ID} --branch master --build-env DOCKER_IMAGE=${ID_DOCKERHUB}/${IMAGE_NAME}:${IMAGE_TAG}
+                     sh '''
+                    curl -o /usr/local/bin/render -L https://render.com/static/cli/render_linux
+                    chmod +x /usr/local/bin/render
                     '''
                 }
             }
