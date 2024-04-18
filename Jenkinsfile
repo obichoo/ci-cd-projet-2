@@ -58,8 +58,9 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        brew tap render-oss/render
-                        brew install render
+                        wget -qO- https://render.com/static/install.sh | sh
+                        render login --email ${RENDER_EMAIL} --password ${RENDER_PASSWORD}
+                        render deploy --project ${RENDER_PROJECT_ID} --branch master --build-env DOCKER_IMAGE=${ID_DOCKERHUB}/${IMAGE_NAME}:${IMAGE_TAG}
                     '''
                 }
             }
