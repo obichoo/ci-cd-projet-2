@@ -6,6 +6,9 @@ pipeline {
         IMAGE_NAME = 'ci-cd-projet-2'
         IMAGE_TAG = 'latest'
         USER_MAIL = "${MAIL_TO}"
+        RENDER_API_TOKEN = credentials('RENDER_API_TOKEN')
+        RENDER_SERVICE_ID = 'srv-cogebr821fec73d8j1mg'
+        RENDER_DEPLOY_HOOK_PROJECT_2 = credentials('RENDER_DEPLOY_HOOK_PROJECT_2')
     }
     stages {
         stage('Build') {
@@ -45,7 +48,7 @@ pipeline {
         stage('Artifact') {
             steps {
                 script {
-                    // Logging into Docker Hub 
+                    // Logging into Docker Hub
                     withCredentials([usernamePassword(credentialsId: 'DOCKERHUB_LOGS', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
                         sh 'echo ${DOCKERHUB_PASSWORD} | docker login -u ${DOCKERHUB_USERNAME} --password-stdin'
                     }
@@ -56,19 +59,20 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                script {
-                    sh '''
-                    curl https://api.render.com/deploy/srv-cogebr821fec73d8j1mg?key=1m_UtaUWwBQ
-                    '''
+                withCredentials([string(credentialsId: 'RENDER_DEPLOY_HOOK_URL_PROJECT_2', variable: 'DEPLOY_HOOK_URL')]) {
+                    script {
+                        // Envoi d'une requête POST au webhook de déploiement
+                        sh "curl -X POST ${DEPLOY_HOOK_URL}"
+                    }
                 }
             }
         }
     }
-    // post {
-    //     always {
-    //         mail to: "${USER_MAIL}",
-    //             subject: "Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}",
-    //             body: "Check Jenkins for details. Build number: ${env.BUILD_NUMBER}"
-    //     }
-    // }
+// post {
+//     always {
+//         mail to: "${USER_MAIL}",
+//             subject: "Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}",
+//             body: "Check Jenkins for details. Build number: ${env.BUILD_NUMBER}"
+//     }
+// }
 }
