@@ -58,10 +58,8 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        sudo apt install build-essential
-                        which make
-                        curl -fsSL -o install.sh https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh
-                        /bin/bash install.sh
+                        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+                        
                         brew tap render-oss/render
                         brew install render
                     '''
